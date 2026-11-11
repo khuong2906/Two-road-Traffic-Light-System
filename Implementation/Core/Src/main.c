@@ -105,7 +105,26 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  /////////////////// Hardware testing ///////////////////
+	  while (1) {
+	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  HAL_Delay(500);
+	  }
+	  /////////////// Module TL_1 ////////////////////
+	  for (uint8_t i = 0; i < 4; i++)
+	      {
+	          HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, ((i >> 1) & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	          HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, (i & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	          HAL_Delay(2000);
+	      }
+	  ////////////// Module TL_2 /////////////////
+//	  for (uint8_t i = 0; i < 4; i++)
+//	      {
+//	          HAL_GPIO_WritePin(D5_GPIO_Port, D3_Pin, ((i >> 1) & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+//	          HAL_GPIO_WritePin(D6_GPIO_Port, D4_Pin, (i & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+//	          HAL_Delay(2000);
+//	      }
+	  ///////////////// End Hardware testing ////////////////////
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -276,7 +295,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, D6_Pin|D3_Pin|D5_Pin|D4_Pin, GPIO_PIN_RESET);
@@ -287,12 +306,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
+  /*Configure GPIO pin : LED_Pin */
+  GPIO_InitStruct.Pin = LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : D6_Pin D3_Pin D5_Pin D4_Pin */
   GPIO_InitStruct.Pin = D6_Pin|D3_Pin|D5_Pin|D4_Pin;
