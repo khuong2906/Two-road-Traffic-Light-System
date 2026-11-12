@@ -124,6 +124,30 @@ int main(void)
 //	          HAL_GPIO_WritePin(D6_GPIO_Port, D4_Pin, (i & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
 //	          HAL_Delay(2000);
 //	      }
+
+	  /* Đọc nút A0 (PA8), nếu nhấn nút (mức 0) thì sáng LED PA5 */
+	      if (HAL_GPIO_ReadPin(A0_GPIO_Port, A0_Pin) == GPIO_PIN_RESET) {
+	          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	      } else {
+	          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	      }
+
+	      uint8_t found[8];
+	      int n = 0;
+
+	      for (uint8_t addr = 1; addr < 128; addr++) {
+	          /* addr << 1: Chuyển địa chỉ 7-bit sang dạng 8-bit theo chuẩn HAL STM32 */
+	          if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 10) == HAL_OK) {
+	              if (n < 8) {
+	                  found[n++] = addr; // Lưu địa chỉ I2C tìm thấy vào mảng
+	              }
+	          }
+	      }
+
+	      /* Đặt Breakpoint tại dòng __NOP() để dừng chương trình kiểm tra mảng found */
+	      __NOP();
+
+
 	  ///////////////// End Hardware testing ////////////////////
     /* USER CODE BEGIN 3 */
   }
