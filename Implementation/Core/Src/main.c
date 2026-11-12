@@ -62,7 +62,17 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void toggle_LED(void) {
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); // Đảo trạng thái PA5 (LED)
+}
 
+void toggle_D3(void) {
+    HAL_GPIO_TogglePin(D3_GPIO_Port, D3_Pin);   // Đảo trạng thái PB3 (D3)
+}
+
+void one_shot_test(void) {
+    HAL_GPIO_TogglePin(D4_GPIO_Port, D4_Pin);   // Đảo trạng thái PB5 (D4) sau 3s
+}
 /* USER CODE END 0 */
 
 /**
@@ -97,6 +107,11 @@ int main(void)
   MX_I2C1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  ////////////////////Scheduler testing///////////////////////
+  SCH_Init();
+  SCH_Add_Task(toggle_LED, 0, 50);     // Chạy mỗi 500 ms (tick 10 ms)
+  SCH_Add_Task(toggle_D3, 0, 100);     // Chạy mỗi 1000 ms
+  SCH_Add_Task(one_shot_test, 300, 0); // Chạy 1 lần duy nhất sau 3 s
 
   /* USER CODE END 2 */
 
@@ -106,17 +121,17 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  /////////////////// Hardware testing ///////////////////
-	  while (1) {
-	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	  HAL_Delay(500);
-	  }
-	  /////////////// Module TL_1 ////////////////////
-	  for (uint8_t i = 0; i < 4; i++)
-	      {
-	          HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, ((i >> 1) & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	          HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, (i & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	          HAL_Delay(2000);
-	      }
+//	  while (1) {
+//	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//	  HAL_Delay(500);
+//	  }
+//	  /////////////// Module TL_1 ////////////////////
+//	  for (uint8_t i = 0; i < 4; i++)
+//	      {
+//	          HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, ((i >> 1) & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+//	          HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, (i & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+//	          HAL_Delay(2000);
+//	      }
 	  ////////////// Module TL_2 /////////////////
 //	  for (uint8_t i = 0; i < 4; i++)
 //	      {
@@ -126,30 +141,30 @@ int main(void)
 //	      }
 
 	  /* Đọc nút A0 (PA8), nếu nhấn nút (mức 0) thì sáng LED PA5 */
-	      if (HAL_GPIO_ReadPin(A0_GPIO_Port, A0_Pin) == GPIO_PIN_RESET) {
-	          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-	      } else {
-	          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-	      }
-
-	      uint8_t found[8];
-	      int n = 0;
-
-	      for (uint8_t addr = 1; addr < 128; addr++) {
-	          /* addr << 1: Chuyển địa chỉ 7-bit sang dạng 8-bit theo chuẩn HAL STM32 */
-	          if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 10) == HAL_OK) {
-	              if (n < 8) {
-	                  found[n++] = addr; // Lưu địa chỉ I2C tìm thấy vào mảng
-	              }
-	          }
-	      }
+//	      if (HAL_GPIO_ReadPin(A0_GPIO_Port, A0_Pin) == GPIO_PIN_RESET) {
+//	          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+//	      } else {
+//	          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+//	      }
+//
+//	      uint8_t found[8];
+//	      int n = 0;
+//
+//	      for (uint8_t addr = 1; addr < 128; addr++) {
+//	          /* addr << 1: Chuyển địa chỉ 7-bit sang dạng 8-bit theo chuẩn HAL STM32 */
+//	          if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 10) == HAL_OK) {
+//	              if (n < 8) {
+//	                  found[n++] = addr; // Lưu địa chỉ I2C tìm thấy vào mảng
+//	              }
+//	          }
+//	      }
 
 	      /* Đặt Breakpoint tại dòng __NOP() để dừng chương trình kiểm tra mảng found */
-	      __NOP();
-
-
-	  ///////////////// End Hardware testing ////////////////////
+//	      __NOP();
+      ///////////////// End Hardware testing ////////////////////
     /* USER CODE BEGIN 3 */
+/////////////////////Scheduler testing////////////////////
+	  SCH_Dispatch_Tasks();
   }
   /* USER CODE END 3 */
 }
