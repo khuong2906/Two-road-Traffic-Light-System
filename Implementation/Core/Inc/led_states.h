@@ -16,6 +16,7 @@ void state_red();
 void state_green();
 void state_yellow();
 
+void state_init1();
 void state_red1();
 void state_green1();
 void state_yellow1();
