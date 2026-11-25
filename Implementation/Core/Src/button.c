@@ -9,8 +9,8 @@
 #include "button.h"
 #include "lcd.h"
 
-static GPIO_TypeDef* buttonPort[NO_OF_BUTTONS] = {A0_GPIO_Port, A1_GPIO_Port, A2_GPIO_Port}; 	// Store GPIO button port
-static uint16_t buttonPin[NO_OF_BUTTONS] = {A0_Pin, A1_Pin, A2_Pin};						 	// Store button pin
+static GPIO_TypeDef* buttonPort[NO_OF_BUTTONS] = {A0_GPIO_Port, A1_GPIO_Port, A2_GPIO_Port, A3_GPIO_Port}; 	// Store GPIO button port
+static uint16_t buttonPin[NO_OF_BUTTONS] = {A0_Pin, A1_Pin, A2_Pin, A3_Pin};						 	// Store button pin
 
 
 // Buffers used for debouncing the three different button inputs

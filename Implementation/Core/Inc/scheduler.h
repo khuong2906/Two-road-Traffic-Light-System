@@ -12,6 +12,8 @@
 #include <stddef.h>
 
 #define SCH_MAX_TASKS 	41
+#define SCH_NO_TASK_ID  0       /* SCH_Add_Task tra ve gia tri nay khi danh sach day */
+
 int __io_putchar(int ch);
 
 extern volatile uint32_t timer_tick;
