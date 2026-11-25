@@ -23,6 +23,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "scheduler.h"
+#include "software_timer.h"
+#include "button.h"
+#include "lcd.h"
+#include "fsm_manual.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -115,10 +119,11 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   ////////////////////Scheduler testing///////////////////////
+  lcd_init();
   SCH_Init();
-  SCH_Add_Task(toggle_LED, 0, 500);     // Chạy mỗi 500 ms (DELAY, PERIOD tính bằng ms)
-  SCH_Add_Task(toggle_D3, 0, 1000);     // Chạy mỗi 1000 ms
-  SCH_Add_Task(one_shot_test, 3000, 0); // Chạy 1 lần duy nhất sau 3 s
+  SCH_Add_Task(button_reading, 0, 10);  // Đọc nút mỗi 10 ms
+  SCH_Add_Task(timer_run, 0, 10);       // Software timer mỗi 10 ms
+  SCH_Add_Task(fsm_manual_run, 0, 100); // State machine + LCD mỗi 100 ms
   ////////////////////////////////////////////////////////////
 
   HAL_TIM_Base_Start_IT(&htim2);        // Bật ngắt TIM2 (10 ms) cho scheduler
@@ -132,6 +137,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 /////////////////////Scheduler testing////////////////////
 	  SCH_Dispatch_Tasks();
   }
