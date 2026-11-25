@@ -63,15 +63,15 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void toggle_LED(void) {
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); // Đảo trạng thái PA5 (LED)
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); // �?ảo trạng thái PA5 (LED)
 }
 
 void toggle_D3(void) {
-    HAL_GPIO_TogglePin(D3_GPIO_Port, D3_Pin);   // Đảo trạng thái PB3 (D3)
+    HAL_GPIO_TogglePin(D3_GPIO_Port, D3_Pin);   // �?ảo trạng thái PB3 (D3)
 }
 
 void one_shot_test(void) {
-    HAL_GPIO_TogglePin(D4_GPIO_Port, D4_Pin);   // Đảo trạng thái PB5 (D4) sau 3s
+    HAL_GPIO_TogglePin(D4_GPIO_Port, D4_Pin);   // �?ảo trạng thái PB5 (D4) sau 3s
 }
 /* USER CODE END 0 */
 
@@ -112,6 +112,7 @@ int main(void)
   SCH_Add_Task(toggle_LED, 0, 50);     // Chạy mỗi 500 ms (tick 10 ms)
   SCH_Add_Task(toggle_D3, 0, 100);     // Chạy mỗi 1000 ms
   SCH_Add_Task(one_shot_test, 300, 0); // Chạy 1 lần duy nhất sau 3 s
+  ////////////////////////////////////////////////////////////
 
   /* USER CODE END 2 */
 
@@ -120,51 +121,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  /////////////////// Hardware testing ///////////////////
-//	  while (1) {
-//	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-//	  HAL_Delay(500);
-//	  }
-//	  /////////////// Module TL_1 ////////////////////
-//	  for (uint8_t i = 0; i < 4; i++)
-//	      {
-//	          HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, ((i >> 1) & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-//	          HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, (i & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-//	          HAL_Delay(2000);
-//	      }
-	  ////////////// Module TL_2 /////////////////
-//	  for (uint8_t i = 0; i < 4; i++)
-//	      {
-//	          HAL_GPIO_WritePin(D5_GPIO_Port, D3_Pin, ((i >> 1) & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-//	          HAL_GPIO_WritePin(D6_GPIO_Port, D4_Pin, (i & 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-//	          HAL_Delay(2000);
-//	      }
 
-	  /* Đọc nút A0 (PA8), nếu nhấn nút (mức 0) thì sáng LED PA5 */
-//	      if (HAL_GPIO_ReadPin(A0_GPIO_Port, A0_Pin) == GPIO_PIN_RESET) {
-//	          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-//	      } else {
-//	          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-//	      }
-//
-//	      uint8_t found[8];
-//	      int n = 0;
-//
-//	      for (uint8_t addr = 1; addr < 128; addr++) {
-//	          /* addr << 1: Chuyển địa chỉ 7-bit sang dạng 8-bit theo chuẩn HAL STM32 */
-//	          if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 10) == HAL_OK) {
-//	              if (n < 8) {
-//	                  found[n++] = addr; // Lưu địa chỉ I2C tìm thấy vào mảng
-//	              }
-//	          }
-//	      }
-
-	      /* Đặt Breakpoint tại dòng __NOP() để dừng chương trình kiểm tra mảng found */
-//	      __NOP();
-      ///////////////// End Hardware testing ////////////////////
     /* USER CODE BEGIN 3 */
 /////////////////////Scheduler testing////////////////////
-	  SCH_Dispatch_Tasks();
+//	  SCH_Dispatch_Tasks();
   }
   /* USER CODE END 3 */
 }
@@ -339,6 +299,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, D6_Pin|D3_Pin|D5_Pin|D4_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
@@ -365,17 +328,24 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(A2_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : A0_Pin */
-  GPIO_InitStruct.Pin = A0_Pin;
+  /*Configure GPIO pin : LED_2_Pin */
+  GPIO_InitStruct.Pin = LED_2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(LED_2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : A0_Pin A1_Pin */
+  GPIO_InitStruct.Pin = A0_Pin|A1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(A0_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : A1_Pin */
-  GPIO_InitStruct.Pin = A1_Pin;
+  /*Configure GPIO pin : A3_Pin */
+  GPIO_InitStruct.Pin = A3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(A1_GPIO_Port, &GPIO_InitStruct);
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(A3_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
