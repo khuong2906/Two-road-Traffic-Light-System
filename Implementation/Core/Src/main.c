@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "scheduler.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,15 +63,22 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void toggle_LED(void) {
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); // �?ảo trạng thái PA5 (LED)
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); // Đảo trạng thái PA5 (LED)
 }
 
 void toggle_D3(void) {
-    HAL_GPIO_TogglePin(D3_GPIO_Port, D3_Pin);   // �?ảo trạng thái PB3 (D3)
+    HAL_GPIO_TogglePin(D3_GPIO_Port, D3_Pin);   // Đảo trạng thái PB3 (D3)
 }
 
 void one_shot_test(void) {
-    HAL_GPIO_TogglePin(D4_GPIO_Port, D4_Pin);   // �?ảo trạng thái PB5 (D4) sau 3s
+    HAL_GPIO_TogglePin(D4_GPIO_Port, D4_Pin);   // Đảo trạng thái PB5 (D4) sau 3s
+}
+
+/* Ngat timer TIM2 moi 10 ms -> cap nhat scheduler */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    if (htim->Instance == TIM2) {
+        SCH_Update();
+    }
 }
 /* USER CODE END 0 */
 
@@ -109,10 +116,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
   ////////////////////Scheduler testing///////////////////////
   SCH_Init();
-  SCH_Add_Task(toggle_LED, 0, 50);     // Chạy mỗi 500 ms (tick 10 ms)
-  SCH_Add_Task(toggle_D3, 0, 100);     // Chạy mỗi 1000 ms
-  SCH_Add_Task(one_shot_test, 300, 0); // Chạy 1 lần duy nhất sau 3 s
+  SCH_Add_Task(toggle_LED, 0, 500);     // Chạy mỗi 500 ms (DELAY, PERIOD tính bằng ms)
+  SCH_Add_Task(toggle_D3, 0, 1000);     // Chạy mỗi 1000 ms
+  SCH_Add_Task(one_shot_test, 3000, 0); // Chạy 1 lần duy nhất sau 3 s
   ////////////////////////////////////////////////////////////
+
+  HAL_TIM_Base_Start_IT(&htim2);        // Bật ngắt TIM2 (10 ms) cho scheduler
 
   /* USER CODE END 2 */
 
@@ -124,7 +133,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 /////////////////////Scheduler testing////////////////////
-//	  SCH_Dispatch_Tasks();
+	  SCH_Dispatch_Tasks();
   }
   /* USER CODE END 3 */
 }

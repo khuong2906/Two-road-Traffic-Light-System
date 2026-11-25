@@ -72,23 +72,6 @@ static void SCH_Remove_At(uint8_t index) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //API
 uint32_t SCH_Add_Task(void (*pFunction)(void), uint32_t DELAY, uint32_t PERIOD) {
     if (pFunction == 0) return SCH_NO_TASK_ID;
@@ -148,7 +131,7 @@ void SCH_Dispatch_Tasks(void) {
 }
 
 uint8_t SCH_Delete_Task(uint32_t taskID) {
-    if (taskID == SCH_MAX_TASKS) return 0;
+    if (taskID == SCH_NO_TASK_ID) return 0;
     __disable_irq();
 
     for (uint8_t i = 0; i < SCH_count; i++) {
