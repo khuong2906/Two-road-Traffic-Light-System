@@ -19,7 +19,7 @@
 #define MAN_RED_MODE 		2
 #define MAN_YELLOW_MODE 	3
 #define MAN_GREEN_MODE 		4
-
+#define MANUAL_MODE 		5
 #define AUTO_RED 	 		11
 #define AUTO_GREEN 	 		12
 #define AUTO_YELLOW  		13
