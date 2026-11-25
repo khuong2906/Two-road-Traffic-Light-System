@@ -29,5 +29,5 @@ void clearTimer4();
 void clearTimer5();
 void clearTimer6();
 
-
+void timer_run();
 #endif /* INC_SOFTWARE_TIMER_H_ */

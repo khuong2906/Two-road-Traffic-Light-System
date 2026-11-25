@@ -21,7 +21,7 @@
 
 
 
-int timer0_counter = 0, timer1_counter = 0, timer2_counter = 0, timer3_counter = 0, timer4_counter, timer5_counter, timer6_counter;
+int timer0_counter = 0, timer1_counter = 0, timer2_counter = 0, timer3_counter = 0, timer4_counter = 0 , timer5_counter = 0 , timer6_counter = 0 ;
 int timer0_flag = 0, timer1_flag = 0, timer2_flag = 0, timer3_flag = 0, timer4_flag = 0, timer5_flag = 0, timer6_flag = 0;
 int TIMER_CYCLE = 1;
 
@@ -38,18 +38,18 @@ void setTimer2(int duration) {
     timer2_counter = duration / TIMER_CYCLE;
     timer2_flag = 0;
 }
-//void setTimer3(int duration) {
-//    timer3_counter = duration / TIMER_CYCLE;
-//    timer3_flag = 0;
-//}
+void setTimer3(int duration) {
+    timer3_counter = duration / TIMER_CYCLE;
+    timer3_flag = 0;
+}
 void setTimer4(int duration){
 	timer4_counter = duration / TIMER_CYCLE;
 	timer4_flag = 0;
 }
-//void setTimer5(int duration){
-//	timer5_counter = duration / TIMER_CYCLE;
-//	timer5_flag = 0;
-//}
+void setTimer5(int duration){
+	timer5_counter = duration / TIMER_CYCLE;
+	timer5_flag = 0;
+}
 void setTimer6(int duration){
 	timer6_counter = duration / TIMER_CYCLE;
 	timer6_flag = 0;
@@ -57,10 +57,10 @@ void setTimer6(int duration){
 
 
 
-//void clearTimer0(){
-//	timer0_counter = 0;
-//	timer0_flag = 0;
-//}
+void clearTimer0(){
+	timer0_counter = 0;
+	timer0_flag = 0;
+}
 void clearTimer1(){
 	timer1_counter = 0;
 	timer1_flag = 0;
@@ -69,18 +69,18 @@ void clearTimer2(){
 	timer2_counter = 0;
 	timer2_flag = 0;
 }
-//void clearTimer3(){
-//	timer3_counter = 0;
-//	timer3_flag = 0;
-//}
-//void clearTimer4(){
-//	timer4_counter = 0;
-//	timer4_flag = 0;
-//}
-//void clearTimer5(){
-//	timer5_counter = 0;
-//	timer5_flag = 0;
-//}
+void clearTimer3(){
+	timer3_counter = 0;
+	timer3_flag = 0;
+}
+void clearTimer4(){
+	timer4_counter = 0;
+	timer4_flag = 0;
+}
+void clearTimer5(){
+	timer5_counter = 0;
+	timer5_flag = 0;
+}
 void clearTimer6(){
 	timer6_counter = 0;
 	timer6_flag = 0;
