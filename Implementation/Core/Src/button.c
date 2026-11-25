@@ -7,7 +7,7 @@
 
 
 #include "button.h"
-#include "lcd.h"
+#include "main.h"
 
 static GPIO_TypeDef* buttonPort[NO_OF_BUTTONS] = {A0_GPIO_Port, A1_GPIO_Port, A2_GPIO_Port, A3_GPIO_Port}; 	// Store GPIO button port
 static uint16_t buttonPin[NO_OF_BUTTONS] = {A0_Pin, A1_Pin, A2_Pin, A3_Pin};						 	// Store button pin
@@ -56,7 +56,7 @@ void button_init(){
 int is_button_pressed(uint8_t index){
 	if(index >= NO_OF_BUTTONS) return 0;
 	if(flagForButtonPress[index]){
-		lcd_clear_display();
+//		lcd_clear_display();
 		flagForButtonPress[index] = 0;
 		return 1;
 	}
@@ -86,7 +86,7 @@ void button_reading(void){
                 } else {
                 	// Button changed from 'pressed' to 'released', free all the counter and flag
                     counterForButtonPress_2s[i] = 0;
-                    flagForButtonPress[i] = 0;
+//                    flagForButtonPress[i] = 0;
                 	}
             	}
             	// If the button is still pressed and the counter is running
