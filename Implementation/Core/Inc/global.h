@@ -23,9 +23,16 @@
 #define AUTO_RED 	 		11
 #define AUTO_GREEN 	 		12
 #define AUTO_YELLOW  		13
+#define INIT 		 		14
+#define INIT1 		 		15
 
+extern int duration_time_of_AUTO_RED;
+extern int duration_time_of_AUTO_YELLOW;
+extern int duration_time_of_AUTO_GREEN;
 
+extern int buffer_duration_time; //save time++ mode 2,3,4
 extern int status;
 extern int status1;
+extern int mode;
 
 #endif /* INC_GLOBAL_H_ */

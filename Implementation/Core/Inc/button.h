@@ -30,7 +30,6 @@ void fsm_for_input_processing(void) ;
 
 void button_init();
 void Mode_count_Buffer();
-extern int mode;
 
 
 
