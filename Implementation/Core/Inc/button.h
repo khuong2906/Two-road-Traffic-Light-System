@@ -8,7 +8,7 @@
 #ifndef INC_BUTTON_H_
 #define INC_BUTTON_H_
 
-#define NO_OF_BUTTONS 3
+#define NO_OF_BUTTONS 4
 // Thời gian ngắt timer là 10ms, để đạt 2 giây, cần 200 lần ngắt
 #define DURATION_FOR_AUTO_INCREASING 200
 
