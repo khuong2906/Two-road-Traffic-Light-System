@@ -11,7 +11,6 @@
 #include "software_timer.h"
 #include "main.h"
 #include "fsm_manual.h"
-#include "global.c"
 
 
 void fsm_automatic_run(){
